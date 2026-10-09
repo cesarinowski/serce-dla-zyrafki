@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffdce7">
+  <title>Dla Ciebie ❤️</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; min-height: 100dvh;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; overflow: hidden;
+      background: linear-gradient(135deg, #ffdce7, #ffb6cb);
+      font-family: Arial, sans-serif;
+    }
+    #heart {
+      position: relative; border: 0; padding: 0;
+      background: transparent; cursor: pointer;
+      font-size: clamp(220px, 62vw, 380px); line-height: 1;
+      filter: drop-shadow(0 12px 16px #d81b6060);
+      animation: beat 1.2s infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #tap {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      color: white; font-size: clamp(20px, 5vw, 32px);
+      font-weight: 800; text-shadow: 0 2px 6px #a00035;
+      white-space: nowrap; pointer-events: none;
+    }
+    #message {
+      display: none; padding: 24px; text-align: center;
+      color: #d41452; font-weight: 800;
+      font-size: clamp(30px, 7vw, 52px);
+      line-height: 1.25; animation: appear .8s ease both;
+    }
+    .tiny-heart {
+      position: fixed; bottom: -40px; pointer-events: none;
+      animation: float-up 3s ease-out forwards;
+    }
+    @keyframes beat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+    @keyframes appear { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+    @keyframes float-up { to { transform: translateY(-115vh) rotate(25deg); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      #heart { animation: none; }
+      .tiny-heart { animation-duration: 1s; }
+    }
+  </style>
+</head>
+<body>
+  <button id="heart" aria-label="Naciśnij serce">
+    ❤️
+    <span id="tap">NACIŚNIJ</span>
+  </button>
+  <div id="message">Kocham Cię<br>żyrafko moja ❤️</div>
+  <script>
+    const heart = document.getElementById('heart');
+    const message = document.getElementById('message');
+
+    heart.addEventListener('click', () => {
+      heart.style.display = 'none';
+      message.style.display = 'block';
+
+      // Tworzymy małe serduszka po kliknięciu.
+      for (let i = 0; i < 24; i++) {
+        const tiny = document.createElement('span');
+        tiny.className = 'tiny-heart';
+        tiny.textContent = ['💗', '💕', '💖'][Math.floor(Math.random() * 3)];
+        tiny.style.left = Math.random() * 100 + 'vw';
+        tiny.style.fontSize = (18 + Math.random() * 24) + 'px';
+        tiny.style.animationDelay = (Math.random() * 0.8) + 's';
+        document.body.appendChild(tiny);
+        tiny.addEventListener('animationend', () => tiny.remove());
+      }
+    });
+  </script>
+</body>
+</html>
